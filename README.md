@@ -1,2 +1,2 @@
-# metal-jewel-typescript-frontend
+# Metal Jewel TypeScript Frontend
 A game written in TypeScript.
