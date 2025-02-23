@@ -1,0 +1,17 @@
+body {
+    background-image: url("../res/graphics/background.png");
+    background-color: #ffffff;
+    background-repeat: repeat;
+    margin: 0;
+}
+
+#gameCanvas {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.5);
+}
