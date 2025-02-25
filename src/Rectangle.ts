@@ -25,23 +25,23 @@ class Rectangle extends Vector {
     }
 
     get top(): number {
-        return this.y;
+        return this.y - this._height / 2;
     }
 
     get right(): number {
-        return this.x + this._width;
+        return this.x + this._width / 2;
     }
 
     get bottom(): number {
-        return this.y + this._height;
+        return this.y + this._height / 2;
     }
 
     get left(): number {
-        return this.x;
+        return this.x - this._width / 2;
     }
 
     get origin(): Vector {
-        return new Vector(this._width / 2, this._height / 2);
+        return new Vector(this.x - this._width / 2, this.y - this._height / 2);
     }
 
     contains(vector: Vector): boolean {

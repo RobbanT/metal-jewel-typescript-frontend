@@ -1,5 +1,5 @@
 class Sprite extends Rectangle {
-    private _image: HTMLImageElement;
+    protected _image: HTMLImageElement;
 
     constructor(rectangle: Rectangle, src: string) {
         super(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
@@ -10,6 +10,6 @@ class Sprite extends Rectangle {
     }
 
     draw(context: CanvasRenderingContext2D | null) {
-        context!.drawImage(this._image, this.x - this.origin.x, this.y - this.origin.y, this.width, this.height);
+        context!.drawImage(this._image, this.origin.x, this.origin.y, this.width, this.height);
     }
 }

@@ -18,19 +18,19 @@ class Rectangle extends Vector {
         this._height = height;
     }
     get top() {
-        return this.y;
+        return this.y - this._height / 2;
     }
     get right() {
-        return this.x + this._width;
+        return this.x + this._width / 2;
     }
     get bottom() {
-        return this.y + this._height;
+        return this.y + this._height / 2;
     }
     get left() {
-        return this.x;
+        return this.x - this._width / 2;
     }
     get origin() {
-        return new Vector(this._width / 2, this._height / 2);
+        return new Vector(this.x - this._width / 2, this.y - this._height / 2);
     }
     contains(vector) {
         return vector.x >= this.left && vector.x <= this.right && vector.y >= this.top && vector.y <= this.bottom;
