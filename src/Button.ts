@@ -19,7 +19,7 @@ class Button extends Sprite {
     update(mousePosition: Vector, mouseDown: boolean, mouseClicked: boolean) {
         if (this.contains(mousePosition) && mouseClicked) {
             this._onClick();
-            mouseClicked = false;
+            document.body.style.cursor = "auto";
         } else if (this.contains(mousePosition) && mouseDown) {
             this._pressed = true;
             this._hovering = false;

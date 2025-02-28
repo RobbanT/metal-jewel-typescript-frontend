@@ -20,8 +20,7 @@ class GameScreenManager {
         this.gameScreens.push(gameScreen);
     }
     removeGameScreen(gameScreen) {
-        this.gameScreens.pop;
-        console.log(this.gameScreens);
+        this.removeAllGameScreens();
     }
     changeGameScreen(newGameScreen, oldGameScreen) {
         this.removeGameScreen(oldGameScreen);

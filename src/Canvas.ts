@@ -27,6 +27,7 @@ class Canvas {
             if (event.button === 0) {
                 this._mouseClicked = true;
                 this._mouseDown = false;
+                return;
             }
         });
     }

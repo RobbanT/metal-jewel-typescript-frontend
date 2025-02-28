@@ -12,7 +12,15 @@ class GameMainMenuScreen extends GameMenuScreen {
         this.rightJewel = new Sprite(new Rectangle(489, 75, 30, 30), `${graphicsPath}${Colors[Math.floor((Math.random() * Object.keys(Colors).length) / 2)]}-jewel-concave.png`);
 
         this.buttonArray.push(
-            new Button(new Rectangle(canvas.origin.x, canvas.origin.y - 22, 230, 45), `${graphicsPath}big-button.png`, `${graphicsPath}big-button-shade.png`, "Play", () => window.close(), 7, 1)
+            new Button(
+                new Rectangle(canvas.origin.x, canvas.origin.y - 22, 230, 45),
+                `${graphicsPath}big-button.png`,
+                `${graphicsPath}big-button-shade.png`,
+                "Play",
+                () => gameScreenManager.changeGameScreen(new GamePlayScreen(canvas, gameScreenManager, graphicsPath), this),
+                7,
+                1
+            )
         );
 
         this.buttonArray.push(
