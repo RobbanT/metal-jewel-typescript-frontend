@@ -14,7 +14,7 @@ class SpriteText extends Sprite {
         this._chars.set("7", new Rectangle(241, 39, 27, 23));
         this._chars.set("8", new Rectangle(276, 39, 27, 23));
         this._chars.set("9", new Rectangle(311, 39, 27, 23));
-        this._chars.set(":", new Rectangle(319, 39, 9, 23));
+        this._chars.set(":", new Rectangle(345, 39, 9, 23));
         this._chars.set("?", new Rectangle(434, 39, 27, 23));
         this._chars.set("A", new Rectangle(26, 70.5, 27, 23));
         this._chars.set("B", new Rectangle(61, 70.5, 27, 23));
@@ -71,21 +71,21 @@ class SpriteText extends Sprite {
     }
 
     private _text: string;
+    private textScale: number;
 
-    constructor(rectangle: Rectangle, src: string, text: string) {
+    constructor(rectangle: Rectangle, src: string, text: string, textScale: number) {
         super(rectangle, src);
         this._text = text;
+        this.textScale = textScale;
     }
-
-    draw(context: CanvasRenderingContext2D | null) {}
 
     drawText(context: CanvasRenderingContext2D | null, x: number, y: number, width: number, height: number) {
         const chars = [...this._text];
-        let totalWidth = 0;
-        chars.forEach((c, i) => (totalWidth += SpriteText._chars.get(c)!.width));
-        console.log(totalWidth);
+        let totalWidth: number = 0;
         let tempWidth: number = 0;
-        chars.forEach((c, i) => {
+
+        chars.forEach((c) => (totalWidth += SpriteText._chars.get(c)!.width * this.textScale));
+        chars.forEach((c) => {
             context?.drawImage(
                 this._image,
                 SpriteText._chars.get(c)!.x,
@@ -93,11 +93,14 @@ class SpriteText extends Sprite {
                 SpriteText._chars.get(c)!.width,
                 SpriteText._chars.get(c)!.height,
                 x + tempWidth + (width - totalWidth) / 2,
-                y + SpriteText._chars.get(c)!.height / 2,
-                SpriteText._chars.get(c)!.width,
-                SpriteText._chars.get(c)!.height
+
+                y + (SpriteText._chars.get(c)!.height * this.textScale) / 2 / this.textScale,
+
+                SpriteText._chars.get(c)!.width * this.textScale,
+                SpriteText._chars.get(c)!.height * this.textScale
             );
-            tempWidth += SpriteText._chars.get(c)!.width;
+            tempWidth += SpriteText._chars.get(c)!.width * this.textScale;
         });
     }
 }
+SpriteText.initialize();

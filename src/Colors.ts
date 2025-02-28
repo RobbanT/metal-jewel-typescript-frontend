@@ -1,0 +1,1 @@
+enum Colors { red, blue, green, yellow, purple }

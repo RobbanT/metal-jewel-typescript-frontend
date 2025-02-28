@@ -9,6 +9,14 @@ class Sprite extends Rectangle {
         this._image.src = src;
     }
 
+    get image(): HTMLImageElement {
+        return this._image;
+    }
+
+    set image(image: HTMLImageElement) {
+        this._image = image;
+    }
+
     draw(context: CanvasRenderingContext2D | null) {
         context!.drawImage(this._image, this.origin.x, this.origin.y, this.width, this.height);
     }

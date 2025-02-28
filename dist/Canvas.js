@@ -1,41 +1,43 @@
 "use strict";
 class Canvas {
     constructor(canvasId, width, height) {
-        this._mousePositionX = 0;
-        this._mousePositionY = 0;
+        this._mousePosition = new Vector(0, 0);
         this._mouseDown = false;
         this._mouseClicked = false;
-        this._canvas = document.getElementById(canvasId);
-        this._canvas.width = width;
-        this._canvas.height = height;
-        this._canvas.addEventListener("mousemove", (event) => {
-            this._mousePositionX = event.pageX - this._canvas.offsetLeft;
-            this._mousePositionY = event.pageY - this._canvas.offsetTop;
+        this.canvas = document.getElementById(canvasId);
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this._context = this.canvas.getContext("2d");
+        this._origin = new Vector(width / 2, height / 2);
+        this.canvas.addEventListener("mousemove", (event) => {
+            this._mousePosition.position = new Vector(event.pageX - this.canvas.offsetLeft, event.pageY - this.canvas.offsetTop);
         });
-        this._canvas.addEventListener("mousedown", (event) => {
+        this.canvas.addEventListener("mousedown", (event) => {
             if (event.button === 0) {
                 this._mouseDown = true;
             }
         });
-        this._canvas.addEventListener("mouseup", (event) => {
+        this.canvas.addEventListener("mouseup", (event) => {
             if (event.button === 0) {
                 this._mouseClicked = true;
                 this._mouseDown = false;
             }
         });
-        this._context = this._canvas.getContext("2d");
     }
-    clear() {
-        this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    get width() {
+        return this.canvas.width;
     }
-    save() {
-        this._context.save();
+    get height() {
+        return this.canvas.height;
     }
-    get mousePositionX() {
-        return this._mousePositionX;
+    get origin() {
+        return this._origin;
     }
-    get mousePositionY() {
-        return this._mousePositionY;
+    get context() {
+        return this._context;
+    }
+    get mousePosition() {
+        return this._mousePosition;
     }
     get mouseDown() {
         return this._mouseDown;
@@ -46,7 +48,18 @@ class Canvas {
     set mouseClicked(clicked) {
         this._mouseClicked = clicked;
     }
-    drawSprite(sprite) {
-        sprite.draw(this._context);
+    clear() {
+        this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    save() {
+        this._context.save();
+    }
+    update() {
+        if (this._mouseClicked) {
+            this.mouseClicked = false;
+        }
+    }
+    draw() {
+        this.clear();
     }
 }

@@ -14,15 +14,6 @@ class Utility {
         return clampNum;
     }
 
-    static getHighScores(): string[] {
-        let highScores: string[] = new Array();
-        fetch("https://backend-yduns.ondigitalocean.app/high-scores")
-            .then((res) => res.json())
-            .then((data) => (highScores = data.highScores))
-            .catch(() => alert("Fel, kunde inte hämta data!"));
-        return highScores;
-    }
-
     static setHighScore(point: number): void {
         fetch("https://backend-yduns.ondigitalocean.app/high-score", {
             method: "POST",

@@ -16,4 +16,11 @@ class Vector {
     set y(y) {
         this._y = y;
     }
+    get position() {
+        return new Vector(this._x, this._y);
+    }
+    set position(position) {
+        this._x = position.x;
+        this._y = position.y;
+    }
 }

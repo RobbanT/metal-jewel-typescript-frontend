@@ -22,4 +22,13 @@ class Vector {
     set y(y: number) {
         this._y = y;
     }
+
+    get position(): Vector {
+        return new Vector(this._x, this._y);
+    }
+
+    set position(position: Vector) {
+        this._x = position.x;
+        this._y = position.y;
+    }
 }
