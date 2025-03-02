@@ -1,42 +1,42 @@
 "use strict";
 class Button extends Sprite {
-    constructor(rectangle, src, shadeSrc, text, onClick, shadeOffset, textScaling) {
+    constructor(rectangle, src, shadeSrc, fontSrc, text, onClick, shadeOffset, textScaling, charsSprites) {
         super(rectangle, src);
-        this._hovering = false;
-        this._pressed = false;
-        this._originalPosition = new Vector(rectangle.x, rectangle.y);
-        this._shade = new Sprite(new Rectangle(rectangle.x, rectangle.y + shadeOffset, rectangle.width, rectangle.height), shadeSrc);
-        this._text = text;
-        this._onClick = onClick;
-        this._spriteText = new SpriteText(new Rectangle(0, 0, 533, 194), "res/graphics/font.png", text, textScaling);
+        this.hovering = false;
+        this.pressed = false;
+        this.originalPosition = new Vector(rectangle.x, rectangle.y);
+        this.shade = new Sprite(new Rectangle(rectangle.x, rectangle.y + shadeOffset, rectangle.width, rectangle.height), shadeSrc);
+        this.text = text;
+        this.onClick = onClick;
+        this.spriteText = new SpriteText(new Rectangle(0, 0, 533, 194), fontSrc, text, textScaling, charsSprites);
     }
-    update(mousePosition, mouseDown, mouseClicked) {
-        if (this.contains(mousePosition) && mouseClicked) {
-            this._onClick();
+    update(inputData) {
+        if (this.contains(inputData.position) && inputData.mouseClicked) {
+            this.onClick();
             document.body.style.cursor = "auto";
         }
-        else if (this.contains(mousePosition) && mouseDown) {
-            this._pressed = true;
-            this._hovering = false;
-            this.y = this._originalPosition.y;
+        else if (this.contains(inputData.position) && inputData.mouseDown) {
+            this.pressed = true;
+            this.hovering = false;
+            this.y = this.originalPosition.y;
             document.body.style.cursor = "pointer";
         }
-        else if (this.contains(mousePosition)) {
-            this._hovering = true;
-            this.y = this._originalPosition.y - 1;
+        else if (this.contains(inputData.position)) {
+            this.hovering = true;
+            this.y = this.originalPosition.y - 1;
             document.body.style.cursor = "pointer";
         }
-        else if (this._hovering) {
-            this._hovering = false;
-            this.y = this._originalPosition.y;
+        else if (this.hovering) {
+            this.hovering = false;
+            this.y = this.originalPosition.y;
             document.body.style.cursor = "auto";
         }
     }
     draw(context) {
-        if (this._hovering) {
-            this._shade.draw(context);
+        if (this.hovering) {
+            this.shade.draw(context);
         }
         context.drawImage(this._image, this.origin.x, this.origin.y, this.width, this.height);
-        this._spriteText.drawText(context, this.origin.x, this.origin.y, this.width, this.height);
+        this.spriteText.drawText(context, this.origin.x, this.origin.y, this.width, this.height);
     }
 }

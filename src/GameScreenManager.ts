@@ -4,20 +4,6 @@ class GameScreenManager {
 
     constructor() {}
 
-    update(mousePosition: Vector, mouseDown: boolean, mouseClicked: boolean) {
-        this.tempGameScreens = new Array();
-        this.gameScreens.forEach((gameScreen) => this.tempGameScreens.push(gameScreen));
-        this.tempGameScreens.forEach((gameScreen) => {
-            if (gameScreen.running) {
-                gameScreen.update(mousePosition, mouseDown, mouseClicked);
-            }
-        });
-    }
-
-    draw(context: CanvasRenderingContext2D | null) {
-        this.gameScreens.forEach((gameScreen) => gameScreen.draw(context));
-    }
-
     addGameScreen(gameScreen: GameScreen): void {
         this.gameScreens.push(gameScreen);
     }
@@ -34,7 +20,7 @@ class GameScreenManager {
     addGamePopUpScreen(gamePopUpScreen: GamePopUpScreen, gameScreenBehindGamePopUpScreen: GameScreen) {
         //this.addGameScreen(gamePopUpScreen);
         //screenBehindPopUp.CoverScreenWithPopUp();
-        //screenBehindPopUp.PauseScreen();
+        //screenBehindPopUp.PauseScreen();s
     }
 
     RemoveGamePopUpScreen(gamePopUpScreen: GamePopUpScreen) {
@@ -43,5 +29,19 @@ class GameScreenManager {
 
     removeAllGameScreens() {
         this.gameScreens = new Array();
+    }
+
+    update(inputData: InputData) {
+        this.tempGameScreens = new Array();
+        this.gameScreens.forEach((gameScreen) => this.tempGameScreens.push(gameScreen));
+        this.tempGameScreens.forEach((gameScreen) => {
+            if (gameScreen.running) {
+                gameScreen.update(inputData);
+            }
+        });
+    }
+
+    draw(context: CanvasRenderingContext2D | null) {
+        this.gameScreens.forEach((gameScreen) => gameScreen.draw(context));
     }
 }

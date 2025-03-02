@@ -10,9 +10,6 @@ class Sprite extends Rectangle {
     get image() {
         return this._image;
     }
-    set image(image) {
-        this._image = image;
-    }
     draw(context) {
         context.drawImage(this._image, this.origin.x, this.origin.y, this.width, this.height);
     }

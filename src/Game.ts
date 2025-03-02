@@ -9,12 +9,12 @@ class Game {
         this.graphicsPath = graphicsPath;
         this.soundPath = soundPath;
         this.gameScreenManager = new GameScreenManager();
-        this.gameScreenManager.addGameScreen(new GameMainMenuScreen(this.canvas, this.gameScreenManager, this.graphicsPath));
+        this.gameScreenManager.addGameScreen(new GameMainMenuScreen(this.canvas, this.gameScreenManager, this.graphicsPath, this.soundPath));
         this.loopGame();
     }
 
     update(): void {
-        this.gameScreenManager.update(this.canvas.mousePosition, this.canvas.mouseDown, this.canvas.mouseClicked);
+        this.gameScreenManager.update(this.canvas.inputData);
         this.canvas.update();
     }
 

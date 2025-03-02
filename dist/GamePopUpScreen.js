@@ -1,7 +1,7 @@
 "use strict";
 class GamePopUpScreen extends GameMenuScreen {
-    constructor(gameScreenManager, graphicsPath) {
-        super(gameScreenManager, graphicsPath);
+    constructor(gameScreenManager, graphicsPath, soundPath) {
+        super(gameScreenManager, graphicsPath, soundPath);
         this.backgroundShade = new Sprite(new Rectangle(0, 0, 0, 0), "test");
     }
     draw(context) {

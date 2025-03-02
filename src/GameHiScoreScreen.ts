@@ -1,8 +1,8 @@
 class GameHiScoreScreen extends GameMenuScreen {
     private highScoresText: SpriteText[] = new Array();
 
-    constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string) {
-        super(gameScreenManager, graphicsPath);
+    constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string) {
+        super(gameScreenManager, graphicsPath, soundPath);
         this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, canvas.width, canvas.height), `${graphicsPath}high-score-screen-background.png`);
         let highScores: number[] = new Array();
         fetch("https://backend-yduns.ondigitalocean.app/high-scores")
@@ -25,7 +25,7 @@ class GameHiScoreScreen extends GameMenuScreen {
                             placeText = "4TH";
                             break;
                     }
-                    this.highScoresText.push(new SpriteText(new Rectangle(0, 0, 533, 194), "res/graphics/font.png", `${placeText}:  ${highScore}`, 1));
+                    this.highScoresText.push(new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${placeText}:  ${highScore}`, 1, this.charsSprites));
                 });
             })
             .catch(() => alert("Fel, kunde inte hämta data!"));
@@ -34,10 +34,12 @@ class GameHiScoreScreen extends GameMenuScreen {
                 new Rectangle(canvas.origin.x, canvas.origin.y + 149, 112, 30),
                 `${graphicsPath}small-button.png`,
                 `${graphicsPath}small-button-shade.png`,
+                `${graphicsPath}font.png`,
                 "Back",
-                () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath), this),
+                () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this),
                 2,
-                0.5
+                0.5,
+                this.charsSprites
             )
         );
     }

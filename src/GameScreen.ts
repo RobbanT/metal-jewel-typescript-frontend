@@ -28,7 +28,7 @@ abstract class GameScreen {
         this._running = running;
     }
 
-    update(mousePosition: Vector, mouseDown: boolean, mouseClicked: boolean) {}
+    update(inputData: InputData) {}
 
     draw(context: CanvasRenderingContext2D | null): void {
         context!.drawImage(this.background!.image, this.background!.origin.x, this.background!.origin.y, this.background!.width, this.background!.height);

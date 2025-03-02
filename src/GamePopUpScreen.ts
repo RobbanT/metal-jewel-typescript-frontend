@@ -1,8 +1,8 @@
 abstract class GamePopUpScreen extends GameMenuScreen {
     protected backgroundShade: Sprite;
 
-    constructor(gameScreenManager: GameScreenManager, graphicsPath: string) {
-        super(gameScreenManager, graphicsPath);
+    constructor(gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string) {
+        super(gameScreenManager, graphicsPath, soundPath);
         this.backgroundShade = new Sprite(new Rectangle(0, 0, 0, 0), "test");
     }
 

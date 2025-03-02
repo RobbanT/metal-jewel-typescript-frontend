@@ -21,7 +21,7 @@ class GameScreen {
     set running(running) {
         this._running = running;
     }
-    update(mousePosition, mouseDown, mouseClicked) { }
+    update(inputData) { }
     draw(context) {
         context.drawImage(this.background.image, this.background.origin.x, this.background.origin.y, this.background.width, this.background.height);
     }

@@ -1,7 +1,7 @@
 "use strict";
 class GameHiScoreScreen extends GameMenuScreen {
-    constructor(canvas, gameScreenManager, graphicsPath) {
-        super(gameScreenManager, graphicsPath);
+    constructor(canvas, gameScreenManager, graphicsPath, soundPath) {
+        super(gameScreenManager, graphicsPath, soundPath);
         this.highScoresText = new Array();
         this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, canvas.width, canvas.height), `${graphicsPath}high-score-screen-background.png`);
         let highScores = new Array();
@@ -25,11 +25,11 @@ class GameHiScoreScreen extends GameMenuScreen {
                         placeText = "4TH";
                         break;
                 }
-                this.highScoresText.push(new SpriteText(new Rectangle(0, 0, 533, 194), "res/graphics/font.png", `${placeText}:  ${highScore}`, 1));
+                this.highScoresText.push(new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${placeText}:  ${highScore}`, 1, this.charsSprites));
             });
         })
             .catch(() => alert("Fel, kunde inte hämta data!"));
-        this.buttonArray.push(new Button(new Rectangle(canvas.origin.x, canvas.origin.y + 149, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, "Back", () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath), this), 2, 0.5));
+        this.buttonArray.push(new Button(new Rectangle(canvas.origin.x, canvas.origin.y + 149, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, `${graphicsPath}font.png`, "Back", () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this), 2, 0.5, this.charsSprites));
     }
     draw(context) {
         super.draw(context);

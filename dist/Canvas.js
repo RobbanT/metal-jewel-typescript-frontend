@@ -1,28 +1,36 @@
 "use strict";
 class Canvas {
     constructor(canvasId, width, height) {
-        this._mousePosition = new Vector(0, 0);
-        this._mouseDown = false;
-        this._mouseClicked = false;
         this.canvas = document.getElementById(canvasId);
         this.canvas.width = width;
         this.canvas.height = height;
         this._context = this.canvas.getContext("2d");
         this._origin = new Vector(width / 2, height / 2);
+        this._inputData = new InputData();
         this.canvas.addEventListener("mousemove", (event) => {
-            this._mousePosition.position = new Vector(event.pageX - this.canvas.offsetLeft, event.pageY - this.canvas.offsetTop);
+            this._inputData.position = new Vector(event.pageX - this.canvas.offsetLeft, event.pageY - this.canvas.offsetTop);
         });
         this.canvas.addEventListener("mousedown", (event) => {
             if (event.button === 0) {
-                this._mouseDown = true;
+                this._inputData.mouseDown = true;
             }
         });
         this.canvas.addEventListener("mouseup", (event) => {
             if (event.button === 0) {
-                this._mouseClicked = true;
-                this._mouseDown = false;
+                this._inputData.mouseClicked = true;
+                this._inputData.mouseDown = false;
                 return;
             }
+        });
+        this.canvas.addEventListener("touchmove", (event) => {
+            this._inputData.position = new Vector(event.touches[0].pageX - this.canvas.offsetLeft, event.touches[0].pageY - this.canvas.offsetTop);
+        });
+        this.canvas.addEventListener("touchstart", (event) => {
+            this._inputData.touchStarted = true;
+        });
+        this.canvas.addEventListener("touchend", (event) => {
+            this._inputData.touchEnded = true;
+            this._inputData.touchStarted = false;
         });
     }
     get width() {
@@ -37,30 +45,18 @@ class Canvas {
     get context() {
         return this._context;
     }
-    get mousePosition() {
-        return this._mousePosition;
-    }
-    get mouseDown() {
-        return this._mouseDown;
-    }
-    get mouseClicked() {
-        return this._mouseClicked;
-    }
-    set mouseClicked(clicked) {
-        this._mouseClicked = clicked;
-    }
-    clear() {
-        this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    save() {
-        this._context.save();
+    get inputData() {
+        return this._inputData;
     }
     update() {
-        if (this._mouseClicked) {
-            this.mouseClicked = false;
+        if (this._inputData.mouseClicked) {
+            this._inputData.mouseClicked = false;
+        }
+        if (this._inputData.touchEnded) {
+            this._inputData.touchEnded = false;
         }
     }
     draw() {
-        this.clear();
+        this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
