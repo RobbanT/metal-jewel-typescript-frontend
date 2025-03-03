@@ -26,7 +26,6 @@ class Canvas {
             if (event.button === 0) {
                 this._inputData.mouseClicked = true;
                 this._inputData.mouseDown = false;
-                return;
             }
         });
 

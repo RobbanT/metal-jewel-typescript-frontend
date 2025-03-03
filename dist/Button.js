@@ -11,11 +11,11 @@ class Button extends Sprite {
         this.spriteText = new SpriteText(new Rectangle(0, 0, 533, 194), fontSrc, text, textScaling, charsSprites);
     }
     update(inputData) {
-        if (this.contains(inputData.position) && inputData.mouseClicked) {
+        if ((this.contains(inputData.position) && inputData.mouseClicked) || inputData.touchEnded) {
             this.onClick();
             document.body.style.cursor = "auto";
         }
-        else if (this.contains(inputData.position) && inputData.mouseDown) {
+        else if (this.contains(inputData.position) && (inputData.mouseDown || inputData.touchStarted)) {
             this.pressed = true;
             this.hovering = false;
             this.y = this.originalPosition.y;
