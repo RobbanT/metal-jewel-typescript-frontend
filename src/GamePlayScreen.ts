@@ -1,23 +1,24 @@
 class GamePlayScreen extends GameMenuScreen {
     private score: number = 0;
+    private timer: Timer = new Timer();
+    private timerText: SpriteText;
     private scoreText: SpriteText;
     private sounds: Map<string, Sound> = new Map();
+    private readonly showGameOverScreen: Function;
 
     constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string) {
         super(gameScreenManager, graphicsPath, soundPath);
 
         this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, 564, 406), `${graphicsPath}game-screen-background.png`);
-        this.scoreText = new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${this.score}`, 0.5, this.charsSprites);
+        this.timerText = new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${this.timer.counterString}`, 0.45, this.charsSprites);
+        this.scoreText = new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${this.score}`, 0.45, this.charsSprites);
 
-        this.sounds.set("backgroundMusic", new Sound(`${soundPath}background-music.mp3`, 0.1, true));
-        this.sounds.set("buttonSound", new Sound(`${soundPath}button.mp3`));
-        this.sounds.set("clusterSound", new Sound(`${soundPath}clustor.mp3`));
-        this.sounds.set("gameOverSound", new Sound(`${soundPath}game-over.mp3`));
-        this.sounds.set("newJewelsSound", new Sound(`${soundPath}new-jewels.mp3`));
-        this.sounds.set("sevenClusterSound", new Sound(`${soundPath}seven-cluster.mp3`));
-        this.sounds.set("switchSound", new Sound(`${soundPath}switch.mp3`));
-
-        this.sounds.get("backgroundMusic")?.play();
+        this.sounds.set("buttonSound", new Sound(`${soundPath}button.wav`));
+        this.sounds.set("clusterSound", new Sound(`${soundPath}cluster.wav`));
+        this.sounds.set("gameOverSound", new Sound(`${soundPath}game-over.wav`));
+        this.sounds.set("newJewelsSound", new Sound(`${soundPath}new-jewels.wav`));
+        this.sounds.set("sevenClusterSound", new Sound(`${soundPath}seven-cluster.wav`));
+        this.sounds.set("switchSound", new Sound(`${soundPath}switch.wav`));
 
         this.buttonArray.push(
             new Button(
@@ -26,16 +27,30 @@ class GamePlayScreen extends GameMenuScreen {
                 `${graphicsPath}small-button-shade.png`,
                 `${graphicsPath}font.png`,
                 "Menu",
-                () => {},
+                () => {
+                    this.timer.pauseTimer();
+                    gameScreenManager.addGamePopUpScreen(new GamePauseScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
+                },
                 2,
-                0.5,
+                0.4,
                 this.charsSprites
             )
         );
+
+        this.showGameOverScreen = () => gameScreenManager.addGamePopUpScreen(new GameOverScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
     }
 
     update(inpuData: InputData): void {
         super.update(inpuData);
+        this.timerText.text = this.timer.counterString;
+        if (this.timer.timeInSecond <= 0) {
+            this.sounds.get("gameOverSound")?.play();
+            this.showGameOverScreen();
+        }
+        if (!this.timer.running) {
+            this.timer.runTimer();
+        }
+
         /* fetch("https://backend-yduns.ondigitalocean.app/high-score", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -45,6 +60,7 @@ class GamePlayScreen extends GameMenuScreen {
     }
     draw(context: CanvasRenderingContext2D | null): void {
         super.draw(context);
-        this.scoreText.drawText(context, 70, 97, 50, 49);
+        this.scoreText.drawText(context, 70, 38, 50, 49);
+        this.timerText.drawText(context, 70, 97, 50, 49);
     }
 }

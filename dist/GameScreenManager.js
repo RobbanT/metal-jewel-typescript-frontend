@@ -2,33 +2,32 @@
 class GameScreenManager {
     constructor() {
         this.gameScreens = new Array();
-        this.tempGameScreens = new Array();
+    }
+    getScreens() {
+        return this.gameScreens;
     }
     addGameScreen(gameScreen) {
         this.gameScreens.push(gameScreen);
     }
-    removeGameScreen(gameScreen) {
-        this.removeAllGameScreens();
-    }
     changeGameScreen(newGameScreen, oldGameScreen) {
-        this.removeGameScreen(oldGameScreen);
+        this.removeAllGameScreens();
         this.addGameScreen(newGameScreen);
     }
     addGamePopUpScreen(gamePopUpScreen, gameScreenBehindGamePopUpScreen) {
-        //this.addGameScreen(gamePopUpScreen);
-        //screenBehindPopUp.CoverScreenWithPopUp();
-        //screenBehindPopUp.PauseScreen();s
+        this.addGameScreen(gamePopUpScreen);
+        gameScreenBehindGamePopUpScreen.cover();
+        gameScreenBehindGamePopUpScreen.running = false;
     }
-    RemoveGamePopUpScreen(gamePopUpScreen) {
-        //this.removeGameScreen(gamePopUpScreen);
+    removeGamePopUpScreen(gameScreenBehindGamePopUpScreen) {
+        this.gameScreens.pop();
+        gameScreenBehindGamePopUpScreen.unCover();
+        gameScreenBehindGamePopUpScreen.running = true;
     }
     removeAllGameScreens() {
         this.gameScreens = new Array();
     }
     update(inputData) {
-        this.tempGameScreens = new Array();
-        this.gameScreens.forEach((gameScreen) => this.tempGameScreens.push(gameScreen));
-        this.tempGameScreens.forEach((gameScreen) => {
+        this.gameScreens.forEach((gameScreen) => {
             if (gameScreen.running) {
                 gameScreen.update(inputData);
             }

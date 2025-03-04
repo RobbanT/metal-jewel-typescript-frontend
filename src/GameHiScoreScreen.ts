@@ -38,7 +38,7 @@ class GameHiScoreScreen extends GameMenuScreen {
                 "Back",
                 () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this),
                 2,
-                0.5,
+                0.4,
                 this.charsSprites
             )
         );

@@ -29,7 +29,7 @@ class GameHiScoreScreen extends GameMenuScreen {
             });
         })
             .catch(() => alert("Fel, kunde inte hämta data!"));
-        this.buttonArray.push(new Button(new Rectangle(canvas.origin.x, canvas.origin.y + 149, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, `${graphicsPath}font.png`, "Back", () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this), 2, 0.5, this.charsSprites));
+        this.buttonArray.push(new Button(new Rectangle(canvas.origin.x, canvas.origin.y + 149, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, `${graphicsPath}font.png`, "Back", () => gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this), 2, 0.4, this.charsSprites));
     }
     draw(context) {
         super.draw(context);
