@@ -21,10 +21,15 @@ class SpriteText extends Sprite {
         chars.forEach((c) => (totalWidth += this.charsSprites.get(c)!.width * this.textScale));
         chars.forEach((c) => {
             context?.drawImage(
-                this._image, this.charsSprites.get(c)!.x, this.charsSprites.get(c)!.y,
-                this.charsSprites.get(c)!.width, this.charsSprites.get(c)!.height,
-                x + tempWidth + (width - totalWidth) / 2, y + (this.charsSprites.get(c)!.height * this.textScale) / 2 / this.textScale,
-                this.charsSprites.get(c)!.width * this.textScale, this.charsSprites.get(c)!.height * this.textScale
+                this._image,
+                this.charsSprites.get(c)!.x,
+                this.charsSprites.get(c)!.y,
+                this.charsSprites.get(c)!.width,
+                this.charsSprites.get(c)!.height,
+                x + tempWidth + (width - totalWidth) / 2,
+                y + (this.charsSprites.get(c)!.height * this.textScale) / 2 / this.textScale,
+                this.charsSprites.get(c)!.width * this.textScale,
+                this.charsSprites.get(c)!.height * this.textScale
             );
             tempWidth += this.charsSprites.get(c)!.width * this.textScale;
         });

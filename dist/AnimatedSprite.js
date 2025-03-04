@@ -4,9 +4,10 @@ class AnimatedSprite extends Sprite {
         super(rectangle, src);
         this.sourceRectangles = new Array();
         this.frameIndex = 0;
-        this.timeSinceLastFrame = Date.now();
-        this.frameWidth = this._image.width / frames;
-        this.frameHeight = this._image.height;
+        this.timeSinceLastFrame = 0;
+        this.timeSinceLastUpdate = 0;
+        this.frameWidth = rectangle.width / frames;
+        this.frameHeight = rectangle.height;
         for (let i = 0; i < frames; i++) {
             this.sourceRectangles.push(new Rectangle(i * this.frameWidth, 0, this.frameWidth, this.frameHeight));
         }
@@ -17,33 +18,28 @@ class AnimatedSprite extends Sprite {
     get CollisionRectangle() {
         return new Rectangle(this.x - this.frameWidth / 2, this.y - this.frameHeight / 2, this.frameWidth, this.frameHeight);
     }
-    changeFrameTo(frameIndex) {
-        this.frameIndex = frameIndex;
-    }
     playAnimation() {
         this.animationPlaying = true;
     }
     pausAnimation() {
         this.animationPlaying = false;
     }
-    resetAnimation() {
-        this.frameIndex = 0;
-    }
     update() {
-        this.timeSinceLastFrame += Date.now() - this.timeSinceLastFrame;
+        this.timeSinceLastFrame += Date.now() - this.timeSinceLastUpdate;
+        this.timeSinceLastUpdate = Date.now();
         if (this.animationPlaying && this.timeSinceLastFrame >= this.millisecondsPerFrame) {
             this.timeSinceLastFrame = 0;
             if (this.frameIndex == this.sourceRectangles.length - 1) {
                 if (!this.looping) {
                     this.pausAnimation();
                 }
-                this.resetAnimation();
+                this.frameIndex = 0;
                 return;
             }
             this.frameIndex++;
         }
     }
     draw(context) {
-        context === null || context === void 0 ? void 0 : context.drawImage(this._image, this.x, this.y, this.width, this.height, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight);
+        context === null || context === void 0 ? void 0 : context.drawImage(this._image, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth, this.frameHeight);
     }
 }

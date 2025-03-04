@@ -1,6 +1,6 @@
 "use strict";
 class ScaleEffect extends Effect {
-    constructor(effectStatus, jewel, scalePerUpdate, minScale = 0, maxScale = 1) {
+    constructor(effectStatus, jewel, scalePerUpdate, minScale = 0.5, maxScale = 1) {
         super(effectStatus);
         this.jewel = jewel;
         this.minScale = minScale;

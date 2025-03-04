@@ -9,11 +9,21 @@ class Jewel extends AnimatedSprite {
     private scaleEffect: ScaleEffect;
     private moveEffect: MoveEffect;
 
-    constructor(rectangle: Rectangle, src: string, frames: number, startPosition: Vector, endPosition: Vector, speed: Vector) {
-        super(rectangle, src, frames, false, 1, true);
+    constructor(
+        rectangle: Rectangle,
+        src: string,
+        frames: number,
+        animationPlaying: boolean,
+        millisecondsPerFrame: number,
+        looping: boolean,
+        startPosition: Vector,
+        endPosition: Vector,
+        speed: Vector
+    ) {
+        super(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping);
         this._color = Colors.blue;
-        this.scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.001);
-        this.moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, new Vector(0, 1), startPosition, endPosition, speed);
+        this.scaleEffect = new ScaleEffect(EffectStatus.DecreasingEffect, this, 0.01);
+        this.moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
     }
 
     get color(): Colors {
@@ -66,5 +76,15 @@ class Jewel extends AnimatedSprite {
 
     set scale(scale: number) {
         this._scale = scale;
+    }
+
+    update(): void {
+        super.update();
+        this.scaleEffect.update();
+        this.moveEffect.update();
+    }
+
+    draw(context: CanvasRenderingContext2D | null) {
+        context?.drawImage(this._image, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth * this._scale, this.frameHeight * this._scale);
     }
 }
