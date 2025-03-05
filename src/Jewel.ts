@@ -1,4 +1,5 @@
 class Jewel extends AnimatedSprite {
+    private jewelBackground: Sprite;
     private _color: Colors;
     private _checked: boolean = false;
     private _selected: boolean = false;
@@ -6,10 +7,12 @@ class Jewel extends AnimatedSprite {
     private _moving: boolean = false;
     private _remove: boolean = false;
     private _scale: number = 1;
-    private scaleEffect: ScaleEffect;
-    private moveEffect: MoveEffect;
+    private hovering: boolean = false;
+    private _scaleEffect: ScaleEffect;
+    private _moveEffect: MoveEffect;
 
     constructor(
+        jewelBackgroundSrc: string,
         rectangle: Rectangle,
         src: string,
         frames: number,
@@ -22,8 +25,9 @@ class Jewel extends AnimatedSprite {
     ) {
         super(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping);
         this._color = Colors.blue;
-        this.scaleEffect = new ScaleEffect(EffectStatus.DecreasingEffect, this, 0.01);
-        this.moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
+        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.01);
+        this._moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
+        this.jewelBackground = new Sprite(new Rectangle(this.x, this.y, 40, 40), jewelBackgroundSrc);
     }
 
     get color(): Colors {
@@ -78,13 +82,55 @@ class Jewel extends AnimatedSprite {
         this._scale = scale;
     }
 
-    update(): void {
+    get scaleEffect(): ScaleEffect {
+        return this._scaleEffect;
+    }
+
+    get moveEffect(): MoveEffect {
+        return this._moveEffect;
+    }
+
+    setNewMovePosition(effectStatus: EffectStatus, endPosition: Vector, speed: Vector) {
+        this._moveEffect = new MoveEffect(effectStatus, this, this.position, endPosition, speed);
+    }
+
+    updateJewel(inputData: InputData): void {
         super.update();
-        this.scaleEffect.update();
-        this.moveEffect.update();
+        this._scaleEffect.update();
+        this._moveEffect.update();
+        this.jewelBackground.position = this.position;
+
+        if (!this._scaling && !this._moving) {
+            if ((this.collisionRectangle.contains(inputData.position) && inputData.mouseClicked) || inputData.touchEnded) {
+                this._selected = this._selected ? false : true;
+                document.body.style.cursor = "auto";
+            } else if (this.collisionRectangle.contains(inputData.position)) {
+                this.hovering = true;
+                this.playAnimation();
+                document.body.style.cursor = "pointer";
+            } else if (this.hovering) {
+                this.hovering = false;
+                this.restartAnimation();
+                this.pausAnimation();
+                document.body.style.cursor = "auto";
+            }
+        }
     }
 
     draw(context: CanvasRenderingContext2D | null) {
-        context?.drawImage(this._image, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth * this._scale, this.frameHeight * this._scale);
+        if (this._selected) {
+            this.jewelBackground.draw(context);
+        }
+        context?.drawImage(
+            this._image,
+            this.frameWidth * this.frameIndex,
+            0,
+            this.frameWidth,
+            this.frameHeight,
+            this.x - this.frameWidth / 2,
+            this.y - this.frameHeight / 2,
+            this.frameWidth * this._scale,
+            this.frameHeight * this._scale
+        );
     }
 }

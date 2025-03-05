@@ -21,8 +21,8 @@ class AnimatedSprite extends Sprite {
         this.looping = looping;
     }
 
-    get CollisionRectangle(): Rectangle {
-        return new Rectangle(this.x - this.frameWidth / 2, this.y - this.frameHeight / 2, this.frameWidth, this.frameHeight);
+    get collisionRectangle(): Rectangle {
+        return new Rectangle(this.x, this.y, this.frameWidth, this.frameHeight);
     }
 
     playAnimation() {
@@ -31,6 +31,10 @@ class AnimatedSprite extends Sprite {
 
     pausAnimation() {
         this.animationPlaying = false;
+    }
+
+    restartAnimation() {
+        this.frameIndex = 0;
     }
 
     update() {
@@ -43,7 +47,7 @@ class AnimatedSprite extends Sprite {
                 if (!this.looping) {
                     this.pausAnimation();
                 }
-                this.frameIndex = 0;
+                this.restartAnimation();
                 return;
             }
             this.frameIndex++;

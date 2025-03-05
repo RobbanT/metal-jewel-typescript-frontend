@@ -1,6 +1,6 @@
 "use strict";
 class Jewel extends AnimatedSprite {
-    constructor(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping, startPosition, endPosition, speed) {
+    constructor(jewelBackgroundSrc, rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping, startPosition, endPosition, speed) {
         super(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping);
         this._checked = false;
         this._selected = false;
@@ -8,9 +8,11 @@ class Jewel extends AnimatedSprite {
         this._moving = false;
         this._remove = false;
         this._scale = 1;
+        this.hovering = false;
         this._color = Colors.blue;
-        this.scaleEffect = new ScaleEffect(EffectStatus.DecreasingEffect, this, 0.01);
-        this.moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
+        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.01);
+        this._moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
+        this.jewelBackground = new Sprite(new Rectangle(this.x, this.y, 40, 40), jewelBackgroundSrc);
     }
     get color() {
         return this._color;
@@ -51,12 +53,42 @@ class Jewel extends AnimatedSprite {
     set scale(scale) {
         this._scale = scale;
     }
-    update() {
+    get scaleEffect() {
+        return this._scaleEffect;
+    }
+    get moveEffect() {
+        return this._moveEffect;
+    }
+    setNewMovePosition(effectStatus, endPosition, speed) {
+        this._moveEffect = new MoveEffect(effectStatus, this, this.position, endPosition, speed);
+    }
+    updateJewel(inputData) {
         super.update();
-        this.scaleEffect.update();
-        this.moveEffect.update();
+        this._scaleEffect.update();
+        this._moveEffect.update();
+        this.jewelBackground.position = this.position;
+        if (!this._scaling && !this._moving) {
+            if ((this.collisionRectangle.contains(inputData.position) && inputData.mouseClicked) || inputData.touchEnded) {
+                this._selected = this._selected ? false : true;
+                document.body.style.cursor = "auto";
+            }
+            else if (this.collisionRectangle.contains(inputData.position)) {
+                this.hovering = true;
+                this.playAnimation();
+                document.body.style.cursor = "pointer";
+            }
+            else if (this.hovering) {
+                this.hovering = false;
+                this.restartAnimation();
+                this.pausAnimation();
+                document.body.style.cursor = "auto";
+            }
+        }
     }
     draw(context) {
-        context === null || context === void 0 ? void 0 : context.drawImage(this._image, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth * this._scale, this.frameHeight * this._scale);
+        if (this._selected) {
+            this.jewelBackground.draw(context);
+        }
+        context === null || context === void 0 ? void 0 : context.drawImage(this._image, this.frameWidth * this.frameIndex, 0, this.frameWidth, this.frameHeight, this.x - this.frameWidth / 2, this.y - this.frameHeight / 2, this.frameWidth * this._scale, this.frameHeight * this._scale);
     }
 }

@@ -22,9 +22,14 @@ class ScaleEffect extends Effect {
             case EffectStatus.DecreasingEffect:
                 if (this.jewel.scale > this.minScale) {
                     this.jewel.scale -= this.scalePerUpdate;
+                    this.jewel.scaling = true;
+                    this.jewel.selected = false;
+                    this.jewel.restartAnimation();
+                    this.jewel.pausAnimation();
                 }
                 else {
                     this.effectStatus = EffectStatus.EffectAtMin;
+                    this.jewel.remove = true;
                 }
                 break;
             case EffectStatus.IncreasingEffect:
