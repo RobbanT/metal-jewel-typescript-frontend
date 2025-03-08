@@ -7,35 +7,40 @@ class JewelManager {
     private _movePossible: boolean = false;
     private jewelManagerReady: boolean = false;
     private graphicsPath: string;
+    private sounds: Map<string, Sound>;
 
-    constructor(graphicsPath: string, numberOfJewelsHorizontal: number, numberOfJewelsVertical: number) {
+    constructor(graphicsPath: string, numberOfJewelsHorizontal: number, numberOfJewelsVertical: number, sounds: Map<string, Sound>) {
         this.numberOfJewelsHorizontal = numberOfJewelsHorizontal;
         this.numberOfJewelsVertical = numberOfJewelsVertical;
         this.graphicsPath = graphicsPath;
+        this.sounds = sounds;
+
         this.jewels = new Array(numberOfJewelsHorizontal);
         for (let x = 0; x < numberOfJewelsHorizontal; x++) {
             this.jewels[x] = new Array(numberOfJewelsVertical);
         }
+
         this.initJewels();
         this.jewelManagerReady = true;
     }
 
     private initJewels() {
         if (!this.jewelManagerReady) {
+            this.sounds.get("newJewelsSound")?.play();
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
                 for (let y = 0; y < this.numberOfJewelsVertical; y++) {
                     const color: Colors = Colors[Math.floor((Math.random() * Object.keys(Colors).length) / 2)] as unknown as Colors;
                     this.jewels[x][y] = new Jewel(
                         `${this.graphicsPath}jewel-marked-square.png`,
-                        new Rectangle(213 + 42 * x, 56 + 42 * y - 406, 800, 40),
+                        new Rectangle(214 + 42 * x, 56 + 42 * y - 406, 800, 40),
                         `${this.graphicsPath}${color}-jewel-sprite-sheet.png`,
                         20,
                         false,
                         120,
                         true,
-                        new Vector(213 + 42 * x, 56 + 42 * y - 406),
-                        new Vector(213 + 42 * x, 56 + 42 * y),
-                        new Vector(0, 10),
+                        new Vector(214 + 42 * x, 56 + 42 * y - 406),
+                        new Vector(214 + 42 * x, 56 + 42 * y),
+                        new Vector(0, 7.5 + (this.numberOfJewelsHorizontal - x) * 0.5),
                         color
                     );
                     if (this.checkConnectedJewels(x, y, this.jewels[x][y]!.color) >= 4) {
@@ -44,7 +49,7 @@ class JewelManager {
                     this.uncheckJewels();
                 }
             }
-            this.moveAllJewelsForward();
+            setTimeout(() => this.moveAllJewelsForward(), 300);
         } else {
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
                 for (let y = 0; y < this.numberOfJewelsVertical; y++) {
@@ -52,15 +57,15 @@ class JewelManager {
                     if (this.jewels[x][y] == null) {
                         this.jewels[x][y] = new Jewel(
                             `${this.graphicsPath}jewel-marked-square.png`,
-                            new Rectangle(213 + 42 * x, 56 + 42 * y - 406, 800, 40),
+                            new Rectangle(214 + 42 * x, 56 + 42 * y - 406, 800, 40),
                             `${this.graphicsPath}${color}-jewel-sprite-sheet.png`,
                             20,
                             false,
                             120,
                             true,
-                            new Vector(213 + 42 * x, 56 + 42 * y - 406),
-                            new Vector(213 + 42 * x, 56 + 42 * y),
-                            new Vector(1, 1),
+                            new Vector(214 + 42 * x, 56 + 42 * y - 406),
+                            new Vector(214 + 42 * x, 56 + 42 * y),
+                            new Vector(0, 7.5 + (this.numberOfJewelsHorizontal - x) * 0.5),
                             color
                         );
                     }
@@ -87,7 +92,7 @@ class JewelManager {
                 if (this.jewels[x][y]!.remove) {
                     moveDistance++;
                 } else if (moveDistance > 0) {
-                    this.jewels[x][y]!.setNewMovePosition(EffectStatus.IncreasingEffect, this.jewels[x][y]!.position, new Vector(213 + 42 * x, 56 + 42 * (y + moveDistance)));
+                    this.jewels[x][y]!.setNewMovePosition(EffectStatus.IncreasingEffect, this.jewels[x][y]!.position, new Vector(214 + 42 * x, 56 + 42 * (y + moveDistance)));
                     this.jewels[x][y + moveDistance] = this.jewels[x][y];
                 }
             }
@@ -102,25 +107,20 @@ class JewelManager {
         if (this.jewels[x][y] != null && !this.jewels[x][y].checked && !this.jewels[x][y].moving && !this.jewels[x][y].scaling && this.jewels[x][y].color === jewelColor) {
             connectedJewels++;
             this.jewels[x][y].checked = true;
-            console.log("Börjar Kollar " + x + ":" + y);
-            console.log(this.jewels[x][y].color);
+
             if (x < this.numberOfJewelsHorizontal - 1) {
-                console.log("1Kollar " + (x + 1) + ":" + y);
                 connectedJewels += this.checkConnectedJewels(x + 1, y, jewelColor);
             }
 
             if (x > 0) {
-                console.log("2Kollar " + (x - 1) + ":" + y);
                 connectedJewels += this.checkConnectedJewels(x - 1, y, jewelColor);
             }
 
             if (y < this.numberOfJewelsVertical - 1) {
-                console.log("3Kollar " + x + ":" + (y + 1));
                 connectedJewels += this.checkConnectedJewels(x, y + 1, jewelColor);
             }
 
             if (y > 0) {
-                console.log("4Kollar " + x + ":" + (y - 1));
                 connectedJewels += this.checkConnectedJewels(x, y - 1, jewelColor);
             }
         }
@@ -135,8 +135,12 @@ class JewelManager {
             this.jewels[x][y] = secondSelectedJewel;
             this.jewels[x2][y2] = firstSelectedJewel;
 
-            if (this.checkConnectedJewels(x, y, secondSelectedJewel!.color) >= 4 || this.checkConnectedJewels(x2, y2, firstSelectedJewel!.color) >= 4) this._movePossible = true;
-            //this.uncheckJewels();
+            if (this.checkConnectedJewels(x, y, secondSelectedJewel!.color) >= 4 || this.checkConnectedJewels(x2, y2, firstSelectedJewel!.color) >= 4) {
+                this._movePossible = true;
+            }
+
+            this.uncheckJewels();
+            s;
 
             this.jewels[x][y] = firstSelectedJewel;
             this.jewels[x2][y2] = secondSelectedJewel;
@@ -160,8 +164,8 @@ class JewelManager {
                 this.checkConnectedJewels(jewelsIndex[0].x, jewelsIndex[0].y, secondSelectedJewel!.color) >= 4 ||
                 this.checkConnectedJewels(jewelsIndex[1].x, jewelsIndex[1].y, firstSelectedJewel!.color) >= 4
             ) {
-                this.jewels[jewelsIndex[0].x][jewelsIndex[0].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, secondSelectedJewel!.position, firstSelectedJewel!.position);
-                this.jewels[jewelsIndex[1].x][jewelsIndex[1].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, firstSelectedJewel!.position, secondSelectedJewel!.position);
+                this.jewels[jewelsIndex[0].x][jewelsIndex[0].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, secondSelectedJewel!.position, new Vector(10, 10));
+                this.jewels[jewelsIndex[1].x][jewelsIndex[1].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, firstSelectedJewel!.position, new Vector(10, 10));
             } else {
                 this.jewels[jewelsIndex[0].x][jewelsIndex[0].y] = firstSelectedJewel;
                 this.jewels[jewelsIndex[1].x][jewelsIndex[1].y] = secondSelectedJewel;
@@ -186,9 +190,7 @@ class JewelManager {
     deselectJewels() {
         this.jewels.forEach((jewels) =>
             jewels.forEach((jewel) => {
-                if (!jewel === undefined) {
-                    jewel.selected = false;
-                }
+                jewel.selected = false;
             })
         );
     }
@@ -206,7 +208,7 @@ class JewelManager {
     prepareRemovalOfConnectedJewels() {
         this.jewels.forEach((jewels) =>
             jewels.forEach((jewel) => {
-                if (!jewel === undefined && jewel.checked) {
+                if (jewel.checked) {
                     jewel.scaleEffect.startDecreaseEffect();
                 }
             })
@@ -255,7 +257,7 @@ class JewelManager {
         );
 
         this.fall();
-        this.initJewels();
+        //this.initJewels();
 
         for (let x: number = 0; x < this.jewels.length; x++) {
             for (let y: number = 0; y < this.jewels[0].length; y++) {
@@ -267,7 +269,7 @@ class JewelManager {
                     this._tempTime += connectedJewels;
                 }
 
-                //this.uncheckJewels();
+                this.uncheckJewels();
 
                 if (x < this.jewels.length - 1) {
                     this.checkPossibleMoves(x, y, x + 1, y);

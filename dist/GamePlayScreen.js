@@ -19,7 +19,7 @@ class GamePlayScreen extends GameMenuScreen {
             gameScreenManager.addGamePopUpScreen(new GamePauseScreen(canvas, gameScreenManager, graphicsPath, soundPath, this.timer), this);
         }, 2, 0.4, this.charsSprites));
         this.showGameOverScreen = () => gameScreenManager.addGamePopUpScreen(new GameOverScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        this.jewelManager = new JewelManager(graphicsPath, 8, 8);
+        this.jewelManager = new JewelManager(graphicsPath, 8, 8, this.sounds);
     }
     update(inputData) {
         var _a;

@@ -35,7 +35,7 @@ class GamePlayScreen extends GameMenuScreen {
             )
         );
         this.showGameOverScreen = () => gameScreenManager.addGamePopUpScreen(new GameOverScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        this.jewelManager = new JewelManager(graphicsPath, 8, 8);
+        this.jewelManager = new JewelManager(graphicsPath, 8, 8, this.sounds);
     }
 
     update(inputData: InputData): void {
@@ -47,8 +47,7 @@ class GamePlayScreen extends GameMenuScreen {
         this.scoreText.text = this.score.toString();
         if (this.timer.timeInSecond <= 0) {
             this.sounds.get("gameOverSound")?.play();
-            fetch(`https://backend-yduns.ondigitalocean.app/high-score?point=${this.score}`, 
-                { method: "POST" }).catch(() => alert("Fel, kunde inte lagra data!"));
+            fetch(`https://backend-yduns.ondigitalocean.app/high-score?point=${this.score}`, { method: "POST" }).catch(() => alert("Fel, kunde inte lagra data!"));
             this.showGameOverScreen();
         }
     }

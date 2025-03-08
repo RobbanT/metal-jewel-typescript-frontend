@@ -11,7 +11,7 @@ class Jewel extends AnimatedSprite {
         this.hovering = false;
         this._color = color;
         this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.025);
-        this._moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
+        this._moveEffect = new MoveEffect(EffectStatus.EffectAtMin, this, startPosition, endPosition, speed);
         this.jewelBackground = new Sprite(new Rectangle(this.x, this.y, 40, 40), jewelBackgroundSrc);
     }
     get color() {
@@ -21,7 +21,6 @@ class Jewel extends AnimatedSprite {
         return this._checked;
     }
     set checked(checked) {
-        console.log("hej");
         this._checked = checked;
     }
     get selected() {
