@@ -1,6 +1,6 @@
 "use strict";
 class Jewel extends AnimatedSprite {
-    constructor(jewelBackgroundSrc, rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping, startPosition, endPosition, speed) {
+    constructor(jewelBackgroundSrc, rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping, startPosition, endPosition, speed, color) {
         super(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping);
         this._checked = false;
         this._selected = false;
@@ -9,8 +9,8 @@ class Jewel extends AnimatedSprite {
         this._remove = false;
         this._scale = 1;
         this.hovering = false;
-        this._color = Colors.blue;
-        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.01);
+        this._color = color;
+        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.025);
         this._moveEffect = new MoveEffect(EffectStatus.IncreasingEffect, this, startPosition, endPosition, speed);
         this.jewelBackground = new Sprite(new Rectangle(this.x, this.y, 40, 40), jewelBackgroundSrc);
     }
@@ -21,6 +21,7 @@ class Jewel extends AnimatedSprite {
         return this._checked;
     }
     set checked(checked) {
+        console.log("hej");
         this._checked = checked;
     }
     get selected() {

@@ -14,7 +14,7 @@ class GameOverScreen extends GamePopUpScreen {
                     gameScreenManager.changeGameScreen(new GamePlayScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
                 },
                 2,
-                0.5,
+                0.4,
                 this.charsSprites
             )
         );
@@ -31,7 +31,7 @@ class GameOverScreen extends GamePopUpScreen {
                     gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
                 },
                 2,
-                0.5,
+                0.4,
                 this.charsSprites
             )
         );

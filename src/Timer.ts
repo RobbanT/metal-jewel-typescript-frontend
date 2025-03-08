@@ -37,6 +37,10 @@ class Timer {
         return this._timeInSeconds;
     }
 
+    set timeInSecond(seconds: number) {
+        this._timeInSeconds = seconds;
+    }
+
     pauseTimer() {
         this._running = false;
         clearInterval(this.timerId);
@@ -50,7 +54,7 @@ class Timer {
             if (this._timeInSeconds <= 0) {
                 clearInterval(this.timerId);
             }
-        }, 1000);
+        }, 900);
     }
 
     get running(): boolean {

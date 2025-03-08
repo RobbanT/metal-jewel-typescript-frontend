@@ -4,7 +4,7 @@ class ScaleEffect extends Effect {
     private minScale: number;
     private maxScale: number;
 
-    constructor(effectStatus: EffectStatus, jewel: Jewel, scalePerUpdate: number, minScale: number = 0.5, maxScale: number = 1) {
+    constructor(effectStatus: EffectStatus, jewel: Jewel, scalePerUpdate: number, minScale: number = 0.25, maxScale: number = 1) {
         super(effectStatus);
         this.jewel = jewel;
         this.minScale = minScale;
@@ -28,6 +28,7 @@ class ScaleEffect extends Effect {
             case EffectStatus.DecreasingEffect:
                 if (this.jewel.scale > this.minScale) {
                     this.jewel.scale -= this.scalePerUpdate;
+                    this.jewel.position = new Vector(this.jewel.position.x + (40 / 2) * this.scalePerUpdate, this.jewel.position.y + (40 / 2) * this.scalePerUpdate);
                     this.jewel.scaling = true;
                     this.jewel.selected = false;
                     this.jewel.restartAnimation();

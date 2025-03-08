@@ -1,5 +1,5 @@
 class GamePauseScreen extends GamePopUpScreen {
-    constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string) {
+    constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string, timer: Timer) {
         super(canvas, gameScreenManager, graphicsPath, soundPath);
         this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, 430, 203), `${graphicsPath}pause-screen-background.png`);
         this.buttonArray.push(
@@ -27,6 +27,7 @@ class GamePauseScreen extends GamePopUpScreen {
                 `${graphicsPath}font.png`,
                 "Resume",
                 () => {
+                    timer.runTimer();
                     this.gameScreenManager.removeGamePopUpScreen(gameScreenManager.getScreens()[0]);
                 },
                 2,

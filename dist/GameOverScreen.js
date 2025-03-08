@@ -6,10 +6,10 @@ class GameOverScreen extends GamePopUpScreen {
         this.buttonArray.push(new Button(new Rectangle(212, canvas.origin.y + 48, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, `${graphicsPath}font.png`, "Yes", () => {
             gameScreenManager.removeAllGameScreens();
             gameScreenManager.changeGameScreen(new GamePlayScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        }, 2, 0.5, this.charsSprites));
+        }, 2, 0.4, this.charsSprites));
         this.buttonArray.push(new Button(new Rectangle(352, canvas.origin.y + 48, 112, 30), `${graphicsPath}small-button.png`, `${graphicsPath}small-button-shade.png`, `${graphicsPath}font.png`, "No", () => {
             gameScreenManager.removeAllGameScreens();
             gameScreenManager.changeGameScreen(new GameMainMenuScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        }, 2, 0.5, this.charsSprites));
+        }, 2, 0.4, this.charsSprites));
     }
 }
