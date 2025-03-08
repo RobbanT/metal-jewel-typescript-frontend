@@ -53,7 +53,8 @@ class JewelManager {
         } else {
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
                 for (let y = 0; y < this.numberOfJewelsVertical; y++) {
-                    if (this.jewels[x][y] == null) {
+                    if (this.jewels[x][y] === null) {
+                        console.log("NY");
                         const color: Colors = Colors[Math.floor((Math.random() * Object.keys(Colors).length) / 2)] as unknown as Colors;
                         this.jewels[x][y] = new Jewel(
                             `${this.graphicsPath}jewel-marked-square.png`,
@@ -65,10 +66,11 @@ class JewelManager {
                             true,
                             new Vector(214 + 42 * x, 56 + 42 * y - 406),
                             new Vector(214 + 42 * x, 56 + 42 * y),
-                            new Vector(0, 5),
+                            new Vector(0, 4),
                             color
                         );
                     }
+                    this.jewels[x][y]?.moveEffect.startIncreaseEffect();
                 }
             }
         }
@@ -81,7 +83,7 @@ class JewelManager {
                 if (this.jewels[x][y]!.remove) {
                     moveDistance++;
                 } else if (moveDistance > 0) {
-                    this.jewels[x][y]!.setNewMovePosition(EffectStatus.IncreasingEffect, new Vector(214 + 42 * x, 56 + 42 * (y + moveDistance)), new Vector(0, 5));
+                    this.jewels[x][y]!.setNewMovePosition(EffectStatus.IncreasingEffect, new Vector(214 + 42 * x, 56 + 42 * (y + moveDistance)), new Vector(0, 4));
                     this.jewels[x][y + moveDistance] = this.jewels[x][y];
                 }
             }
@@ -198,7 +200,6 @@ class JewelManager {
         let deltaY = Math.abs(jewelsIndex[0].y - jewelsIndex[1].y);
 
         if ((deltaX === 0 && deltaY === 1) || (deltaX === 1 && deltaY === 0)) {
-            this.sounds.get("switchSound")?.play();
             this.jewels[jewelsIndex[0].x][jewelsIndex[0].y] = secondSelectedJewel;
             this.jewels[jewelsIndex[1].x][jewelsIndex[1].y] = firstSelectedJewel;
 
@@ -206,6 +207,7 @@ class JewelManager {
                 this.checkConnectedJewels(jewelsIndex[0].x, jewelsIndex[0].y, secondSelectedJewel!.color) >= 4 ||
                 this.checkConnectedJewels(jewelsIndex[1].x, jewelsIndex[1].y, firstSelectedJewel!.color) >= 4
             ) {
+                this.sounds.get("switchSound")?.play();
                 this.jewels[jewelsIndex[0].x][jewelsIndex[0].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, firstSelectedJewel!.position, new Vector(deltaX * 3, deltaY * 3));
                 this.jewels[jewelsIndex[1].x][jewelsIndex[1].y]!.setNewMovePosition(EffectStatus.IncreasingEffect, secondSelectedJewel!.position, new Vector(deltaX * 3, deltaY * 3));
             } else {
@@ -264,6 +266,7 @@ class JewelManager {
         this.jewels.forEach((jewels) =>
             jewels.forEach((jewel) => {
                 if (jewel != null && jewel.checked) {
+                    this.sounds.get("clusterSound")?.play();
                     jewel.scaleEffect.startDecreaseEffect();
                 }
             })
