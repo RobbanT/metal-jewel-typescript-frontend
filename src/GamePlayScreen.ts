@@ -6,6 +6,7 @@ class GamePlayScreen extends GameMenuScreen {
     private sounds: Map<string, Sound> = new Map();
     private readonly showGameOverScreen: Function;
     private jewelManager: JewelManager;
+    private graphicsPath: string;
 
     constructor(canvas: Canvas, gameScreenManager: GameScreenManager, graphicsPath: string, soundPath: string) {
         super(gameScreenManager, graphicsPath, soundPath);
@@ -33,7 +34,8 @@ class GamePlayScreen extends GameMenuScreen {
             )
         );
         this.showGameOverScreen = () => gameScreenManager.addGamePopUpScreen(new GameOverScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        this.jewelManager = new JewelManager(graphicsPath, 8, 8, this.sounds);
+        this.jewelManager = new JewelManager(8, 8, graphicsPath, this.sounds);
+        this.graphicsPath = graphicsPath;
     }
 
     update(inputData: InputData): void {
@@ -47,6 +49,9 @@ class GamePlayScreen extends GameMenuScreen {
             this.sounds.get("gameOverSound")?.play();
             fetch(`https://backend-yduns.ondigitalocean.app/high-score?point=${this.score}`, { method: "POST" }).catch(() => alert("Fel, kunde inte lagra data!"));
             this.showGameOverScreen();
+        }
+        if (!this.jewelManager.movePossible) {
+            this.jewelManager = new JewelManager(8, 8, this.graphicsPath, this.sounds);
         }
     }
 

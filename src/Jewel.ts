@@ -26,7 +26,7 @@ class Jewel extends AnimatedSprite {
     ) {
         super(rectangle, src, frames, animationPlaying, millisecondsPerFrame, looping);
         this._color = color;
-        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.1);
+        this._scaleEffect = new ScaleEffect(EffectStatus.EffectAtMax, this, 0.04);
         this._moveEffect = new MoveEffect(EffectStatus.EffectAtMin, this, startPosition, endPosition, speed);
         this.jewelBackground = new Sprite(new Rectangle(this.x, this.y, 40, 40), jewelBackgroundSrc);
     }

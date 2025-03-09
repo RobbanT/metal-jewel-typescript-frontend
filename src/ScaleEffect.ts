@@ -4,7 +4,7 @@ class ScaleEffect extends Effect {
     private minScale: number;
     private maxScale: number;
 
-    constructor(effectStatus: EffectStatus, jewel: Jewel, scalePerUpdate: number, minScale: number = 0.25, maxScale: number = 1) {
+    constructor(effectStatus: EffectStatus, jewel: Jewel, scalePerUpdate: number, minScale: number = 0.4, maxScale: number = 1) {
         super(effectStatus);
         this.jewel = jewel;
         this.minScale = minScale;
@@ -44,6 +44,10 @@ class ScaleEffect extends Effect {
                 } else {
                     this.effectStatus = EffectStatus.EffectAtMax;
                 }
+                break;
+            case EffectStatus.EffectAtMin:
+            case EffectStatus.EffectAtMax:
+                this.jewel.scaling = false;
                 break;
         }
     }

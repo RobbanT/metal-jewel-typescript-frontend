@@ -17,7 +17,8 @@ class GamePlayScreen extends GameMenuScreen {
             gameScreenManager.addGamePopUpScreen(new GamePauseScreen(canvas, gameScreenManager, graphicsPath, soundPath, this.timer), this);
         }, 2, 0.4, this.charsSprites));
         this.showGameOverScreen = () => gameScreenManager.addGamePopUpScreen(new GameOverScreen(canvas, gameScreenManager, graphicsPath, soundPath), this);
-        this.jewelManager = new JewelManager(graphicsPath, 8, 8, this.sounds);
+        this.jewelManager = new JewelManager(8, 8, graphicsPath, this.sounds);
+        this.graphicsPath = graphicsPath;
     }
     update(inputData) {
         var _a;
@@ -31,6 +32,9 @@ class GamePlayScreen extends GameMenuScreen {
             (_a = this.sounds.get("gameOverSound")) === null || _a === void 0 ? void 0 : _a.play();
             fetch(`https://backend-yduns.ondigitalocean.app/high-score?point=${this.score}`, { method: "POST" }).catch(() => alert("Fel, kunde inte lagra data!"));
             this.showGameOverScreen();
+        }
+        if (!this.jewelManager.movePossible) {
+            this.jewelManager = new JewelManager(8, 8, this.graphicsPath, this.sounds);
         }
     }
     draw(context) {
