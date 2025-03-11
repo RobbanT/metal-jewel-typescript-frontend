@@ -32,10 +32,16 @@ class Rectangle extends Vector {
     get origin() {
         return new Vector(this.x - this._width / 2, this.y - this._height / 2);
     }
+    get dimension() {
+        return new Rectangle(this.x, this.y, this.width, this.height);
+    }
+    set dimension(rectangle) {
+        this.x = rectangle.x;
+        this.y = rectangle.y;
+        this.width = rectangle.width;
+        this.height = rectangle.height;
+    }
     contains(vector) {
         return vector.x >= this.left && vector.x <= this.right && vector.y >= this.top && vector.y <= this.bottom;
-    }
-    intersects(rectangle) {
-        return this.left <= rectangle.right && this.right >= rectangle.left && this.top <= rectangle.bottom && this.bottom >= rectangle.top;
     }
 }

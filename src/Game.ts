@@ -1,13 +1,17 @@
 class Game {
+    private readonly gameWidth: number;
+    private readonly gameHeight: number;
     private readonly graphicsPath: string;
     private readonly soundPath: string;
     private readonly canvas: Canvas;
     private readonly gameScreenManager: GameScreenManager;
 
-    constructor(canvasId: string, canvasWidth: number, canvasHeight: number, graphicsPath: string, soundPath: string) {
-        this.canvas = new Canvas(canvasId, canvasWidth, canvasHeight);
+    constructor(canvasId: string, gameWidth: number, gameHeight: number, graphicsPath: string, soundPath: string) {
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
         this.graphicsPath = graphicsPath;
         this.soundPath = soundPath;
+        this.canvas = new Canvas(canvasId, gameWidth, gameHeight);
         this.gameScreenManager = new GameScreenManager();
         this.gameScreenManager.addGameScreen(new GameMainMenuScreen(this.canvas, this.gameScreenManager, this.graphicsPath, this.soundPath));
         this.loopGame();

@@ -44,11 +44,18 @@ class Rectangle extends Vector {
         return new Vector(this.x - this._width / 2, this.y - this._height / 2);
     }
 
-    contains(vector: Vector): boolean {
-        return vector.x >= this.left && vector.x <= this.right && vector.y >= this.top && vector.y <= this.bottom;
+    get dimension(): Rectangle {
+        return new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    intersects(rectangle: Rectangle): boolean {
-        return this.left <= rectangle.right && this.right >= rectangle.left && this.top <= rectangle.bottom && this.bottom >= rectangle.top;
+    set dimension(rectangle: Rectangle) {
+        this.x = rectangle.x;
+        this.y = rectangle.y;
+        this.width = rectangle.width;
+        this.height = rectangle.height;
+    }
+
+    contains(vector: Vector): boolean {
+        return vector.x >= this.left && vector.x <= this.right && vector.y >= this.top && vector.y <= this.bottom;
     }
 }

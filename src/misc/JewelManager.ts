@@ -106,8 +106,8 @@ class JewelManager {
 
                         if (connectedJewels >= 4) {
                             this.prepareRemovalOfConnectedJewels();
-                            this._tempScore += connectedJewels;
-                            this._tempTime += connectedJewels;
+                            this._tempScore += connectedJewels / connectedJewels;
+                            this._tempTime += connectedJewels / connectedJewels;
                         }
                     }
                     this.uncheckJewels();

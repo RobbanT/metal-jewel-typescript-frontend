@@ -44,7 +44,7 @@ class Timer {
             if (this._timeInSeconds <= 0) {
                 clearInterval(this.timerId);
             }
-        }, 900);
+        }, 750);
     }
     get running() {
         return this._running;

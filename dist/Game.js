@@ -1,9 +1,11 @@
 "use strict";
 class Game {
-    constructor(canvasId, canvasWidth, canvasHeight, graphicsPath, soundPath) {
-        this.canvas = new Canvas(canvasId, canvasWidth, canvasHeight);
+    constructor(canvasId, gameWidth, gameHeight, graphicsPath, soundPath) {
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
         this.graphicsPath = graphicsPath;
         this.soundPath = soundPath;
+        this.canvas = new Canvas(canvasId, gameWidth, gameHeight);
         this.gameScreenManager = new GameScreenManager();
         this.gameScreenManager.addGameScreen(new GameMainMenuScreen(this.canvas, this.gameScreenManager, this.graphicsPath, this.soundPath));
         this.loopGame();
