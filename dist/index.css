@@ -1,6 +1,7 @@
 body {
     background: url("res/graphics/background.png") repeat;
     margin: 0;
+    overflow: hidden;
 }
 
 #gameCanvas {

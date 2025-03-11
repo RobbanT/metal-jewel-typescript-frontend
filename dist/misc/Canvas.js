@@ -1,14 +1,17 @@
 "use strict";
 class Canvas {
-    constructor(canvasId, width, height) {
+    constructor(canvasId, width, height, scale) {
         this.canvas = document.getElementById(canvasId);
         this.canvas.width = width;
         this.canvas.height = height;
         this._context = this.canvas.getContext("2d");
         this._origin = new Vector(width / 2, height / 2);
         this._inputData = new InputData();
+        this.scale = scale;
         this.canvas.addEventListener("mousemove", (event) => {
-            this._inputData.position = new Vector(event.pageX - this.canvas.offsetLeft, event.pageY - this.canvas.offsetTop);
+            console.log("Skalning: " + scale.x);
+            this._inputData.position = new Vector((event.pageX - this.canvas.offsetLeft) / scale.x, (event.pageY - this.canvas.offsetTop) / scale.y);
+            console.log(this._inputData.position);
         });
         this.canvas.addEventListener("mousedown", (event) => {
             if (event.button === 0) {
@@ -35,8 +38,14 @@ class Canvas {
     get width() {
         return this.canvas.width;
     }
+    set width(width) {
+        this.canvas.width = width;
+    }
     get height() {
         return this.canvas.height;
+    }
+    set height(height) {
+        this.canvas.height = height;
     }
     get origin() {
         return this._origin;
@@ -55,7 +64,10 @@ class Canvas {
             this._inputData.touchEnded = false;
         }
     }
-    draw() {
+    draw(scaleX, scaleY) {
+        var _a;
+        (_a = this._context) === null || _a === void 0 ? void 0 : _a.save();
         this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this._context.scale(scaleX, scaleY);
     }
 }
