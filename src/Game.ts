@@ -47,6 +47,7 @@ class Game {
     }
 
     draw(): void {
+        //Test
         this.canvas.context!.save();
         this.canvas.context!.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.canvas.context!.scale(this.gameScale.x, this.gameScale.y);
