@@ -3,21 +3,17 @@ class Canvas {
     private readonly _context: CanvasRenderingContext2D | null;
     private readonly _origin: Vector;
     private readonly _inputData: InputData;
-    private readonly scale: Vector;
 
-    constructor(canvasId: string, width: number, height: number, scale: Vector) {
+    constructor(canvasId: string, gameWidth: number, gameHeight: number, gameScale: Vector) {
         this.canvas = <HTMLCanvasElement>document.getElementById(canvasId);
-        this.canvas.width = width;
-        this.canvas.height = height;
+        this.canvas.width = gameWidth;
+        this.canvas.height = gameHeight;
         this._context = this.canvas!.getContext("2d");
-        this._origin = new Vector(width / 2, height / 2);
+        this._origin = new Vector(gameWidth / 2, gameHeight / 2);
         this._inputData = new InputData();
-        this.scale = scale;
 
         this.canvas.addEventListener("mousemove", (event) => {
-            console.log("Skalning: " + scale.x);
-            this._inputData.position = new Vector((event.pageX - this.canvas.offsetLeft) / scale.x, (event.pageY - this.canvas.offsetTop) / scale.y);
-            console.log(this._inputData.position);
+            this._inputData.position = new Vector((event.pageX - this.canvas.offsetLeft) / gameScale.x, (event.pageY - this.canvas.offsetTop) / gameScale.y);
         });
 
         this.canvas.addEventListener("mousedown", (event) => {
@@ -34,7 +30,7 @@ class Canvas {
         });
 
         this.canvas.addEventListener("touchmove", (event) => {
-            this._inputData.position = new Vector(event.touches[0].pageX - this.canvas.offsetLeft, event.touches[0].pageY - this.canvas.offsetTop);
+            this._inputData.position = new Vector((event.touches[0].pageX - this.canvas.offsetLeft) / gameScale.x, (event.touches[0].pageY - this.canvas.offsetTop) / gameScale.y);
         });
 
         this.canvas.addEventListener("touchstart", (event) => {
@@ -82,11 +78,5 @@ class Canvas {
         if (this._inputData.touchEnded) {
             this._inputData.touchEnded = false;
         }
-    }
-
-    draw(scaleX: number, scaleY: number): void {
-        this._context?.save();
-        this._context!.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this._context!.scale(scaleX, scaleY);
     }
 }

@@ -11,12 +11,11 @@ class Game {
         this.gameScreenManager.addGameScreen(new GameMainMenuScreen(this.canvas, this.gameScreenManager, this.graphicsPath, this.soundPath));
         this.loopGame();
         window.addEventListener("resize", () => {
-            var widthToHeight = gameWidth / gameHeight;
-            var newWidth = window.innerWidth > gameWidth ? gameWidth : window.innerWidth;
-            var newHeight = window.innerHeight > gameHeight ? gameHeight : window.innerHeight;
-            var newWidthToHeight = newWidth / newHeight;
+            const widthToHeight = gameWidth / gameHeight;
+            let newWidth = window.innerWidth > gameWidth ? gameWidth : window.innerWidth;
+            let newHeight = window.innerHeight > gameHeight ? gameHeight : window.innerHeight;
+            const newWidthToHeight = newWidth / newHeight;
             if (newWidthToHeight > widthToHeight) {
-                console.log("KÖR");
                 newWidth = newHeight * widthToHeight;
                 this.canvas.width = newWidth;
                 this.canvas.height = newHeight;
@@ -24,26 +23,12 @@ class Game {
                 this.gameScale.y = this.canvas.height / gameHeight;
             }
             else {
-                console.log("KÖR");
                 newHeight = newWidth / widthToHeight;
                 this.canvas.width = newWidth;
                 this.canvas.height = newHeight;
                 this.gameScale.y = this.canvas.height / gameHeight;
                 this.gameScale.x = this.canvas.width / gameWidth;
             }
-            /*if (window.innerWidth < gameWidth) {
-                this.canvas.width = window.innerWidth;
-                this.gameScale.x = this.canvas.width / gameWidth;
-                this.canvas.height = gameHeight * this.gameScale.x;
-                this.gameScale.y = this.canvas.height / gameHeight;
-            }
-            if (window.innerHeight < gameHeight) {
-                this.canvas.height = window.innerHeight;
-                this.gameScale.y = this.canvas.height / gameHeight;
-                this.canvas.width = gameWidth * this.gameScale.y;
-                this.gameScale.x = this.canvas.width / gameWidth;
-            }
-            */
         });
         window.dispatchEvent(new Event("resize"));
     }
@@ -53,7 +38,9 @@ class Game {
     }
     draw() {
         var _a, _b;
-        this.canvas.draw(this.gameScale.x, this.gameScale.y);
+        this.canvas.context.save();
+        this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvas.context.scale(this.gameScale.x, this.gameScale.y);
         this.gameScreenManager.draw(this.canvas.context);
         (_a = this.canvas.context) === null || _a === void 0 ? void 0 : _a.translate(0, 0);
         (_b = this.canvas.context) === null || _b === void 0 ? void 0 : _b.restore();

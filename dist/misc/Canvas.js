@@ -1,17 +1,14 @@
 "use strict";
 class Canvas {
-    constructor(canvasId, width, height, scale) {
+    constructor(canvasId, gameWidth, gameHeight, gameScale) {
         this.canvas = document.getElementById(canvasId);
-        this.canvas.width = width;
-        this.canvas.height = height;
+        this.canvas.width = gameWidth;
+        this.canvas.height = gameHeight;
         this._context = this.canvas.getContext("2d");
-        this._origin = new Vector(width / 2, height / 2);
+        this._origin = new Vector(gameWidth / 2, gameHeight / 2);
         this._inputData = new InputData();
-        this.scale = scale;
         this.canvas.addEventListener("mousemove", (event) => {
-            console.log("Skalning: " + scale.x);
-            this._inputData.position = new Vector((event.pageX - this.canvas.offsetLeft) / scale.x, (event.pageY - this.canvas.offsetTop) / scale.y);
-            console.log(this._inputData.position);
+            this._inputData.position = new Vector((event.pageX - this.canvas.offsetLeft) / gameScale.x, (event.pageY - this.canvas.offsetTop) / gameScale.y);
         });
         this.canvas.addEventListener("mousedown", (event) => {
             if (event.button === 0) {
@@ -25,7 +22,7 @@ class Canvas {
             }
         });
         this.canvas.addEventListener("touchmove", (event) => {
-            this._inputData.position = new Vector(event.touches[0].pageX - this.canvas.offsetLeft, event.touches[0].pageY - this.canvas.offsetTop);
+            this._inputData.position = new Vector((event.touches[0].pageX - this.canvas.offsetLeft) / gameScale.x, (event.touches[0].pageY - this.canvas.offsetTop) / gameScale.y);
         });
         this.canvas.addEventListener("touchstart", (event) => {
             this._inputData.touchStarted = true;
@@ -63,11 +60,5 @@ class Canvas {
         if (this._inputData.touchEnded) {
             this._inputData.touchEnded = false;
         }
-    }
-    draw(scaleX, scaleY) {
-        var _a;
-        (_a = this._context) === null || _a === void 0 ? void 0 : _a.save();
-        this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this._context.scale(scaleX, scaleY);
     }
 }
