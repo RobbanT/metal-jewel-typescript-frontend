@@ -30,16 +30,16 @@ class Canvas {
         });
 
         this.canvas.addEventListener("touchmove", (event) => {
-            this._inputData.position = new Vector((event.touches[0].pageX - this.canvas.offsetLeft) / gameScale.x, (event.touches[0].pageY - this.canvas.offsetTop) / gameScale.y);
+            //this._inputData.position = new Vector((event.touches[0].pageX - this.canvas.offsetLeft) / gameScale.x, (event.touches[0].pageY - this.canvas.offsetTop) / gameScale.y);
         });
 
         this.canvas.addEventListener("touchstart", (event) => {
-            this._inputData.touchStarted = true;
+            //this._inputData.touchStarted = true;
         });
 
         this.canvas.addEventListener("touchend", (event) => {
-            this._inputData.touchEnded = true;
-            this._inputData.touchStarted = false;
+            //this._inputData.touchEnded = true;
+            //this._inputData.touchStarted = false;
         });
     }
 
