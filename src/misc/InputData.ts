@@ -5,8 +5,6 @@ class InputData {
     private _touchStarted: boolean = false;
     private _touchEnded: boolean = false;
 
-    constructor() {}
-
     get position(): Vector {
         return this._position;
     }

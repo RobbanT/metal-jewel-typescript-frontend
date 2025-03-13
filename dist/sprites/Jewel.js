@@ -68,7 +68,16 @@ class Jewel extends AnimatedSprite {
         this._moveEffect.update();
         this.jewelBackground.position = this.position;
         if (!this._scaling && !this._moving) {
-            if ((this.collisionRectangle.contains(inputData.position) && inputData.mouseClicked) || inputData.touchEnded) {
+            if (this.collisionRectangle.contains(inputData.position) && inputData.touchEnded) {
+                this._selected = this._selected ? false : true;
+                return;
+            }
+            else if (this.collisionRectangle.contains(inputData.position) && inputData.touchStarted) {
+                this.hovering = true;
+                this.playAnimation();
+                return;
+            }
+            if (this.collisionRectangle.contains(inputData.position) && inputData.mouseClicked) {
                 this._selected = this._selected ? false : true;
                 document.body.style.cursor = "auto";
             }

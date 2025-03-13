@@ -17,10 +17,23 @@ class Button extends Sprite {
     }
 
     update(inputData: InputData) {
-        if ((this.contains(inputData.position) && inputData.mouseClicked) || inputData.touchEnded) {
+        if (this.contains(inputData.position) && inputData.touchStarted) {
+            this.hovering = true;
+            this.y = this.originalPosition.y - 1;
+            return;
+        } else if (this.contains(inputData.position) && inputData.touchEnded) {
+            this.pressed = true;
+            this.hovering = false;
+            this.y = this.originalPosition.y;
+            inputData.position = new Vector(0, 0);
+            this.onClick();
+            return;
+        }
+
+        if (this.contains(inputData.position) && inputData.mouseClicked) {
             this.onClick();
             document.body.style.cursor = "auto";
-        } else if (this.contains(inputData.position) && (inputData.mouseDown || inputData.touchStarted)) {
+        } else if (this.contains(inputData.position) && inputData.mouseDown) {
             this.pressed = true;
             this.hovering = false;
             this.y = this.originalPosition.y;

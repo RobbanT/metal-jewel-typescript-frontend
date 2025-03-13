@@ -3,7 +3,7 @@ class GameHiScoreScreen extends GameMenuScreen {
     constructor(canvas, gameScreenManager, graphicsPath, soundPath) {
         super(gameScreenManager, graphicsPath, soundPath);
         this.highScoresText = new Array();
-        this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, canvas.width, canvas.height), `${graphicsPath}high-score-screen-background.png`);
+        this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, 564, 406), `${graphicsPath}high-score-screen-background.png`);
         let highScores = new Array();
         fetch("https://backend-yduns.ondigitalocean.app/high-scores")
             .then((res) => res.json())
