@@ -8,7 +8,7 @@ class GamePlayScreen extends GameMenuScreen {
         this.background = new Sprite(new Rectangle(canvas.origin.x, canvas.origin.y, 564, 406), `${graphicsPath}game-screen-background.png`);
         this.timerText = new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${this.timer.counterString}`, 0.45, this.charsSprites);
         this.scoreText = new SpriteText(new Rectangle(0, 0, 533, 194), `${graphicsPath}font.png`, `${this.score}`, 0.45, this.charsSprites);
-        this.sounds.set("clusterSound", new Sound(`${soundPath}cluster.wav`, 0.5, false, 2.5));
+        this.sounds.set("clusterSound", new Sound(`${soundPath}cluster.wav`, 0.5, false, 3));
         this.sounds.set("gameOverSound", new Sound(`${soundPath}game-over.wav`));
         this.sounds.set("newJewelsSound", new Sound(`${soundPath}new-jewels.wav`));
         this.sounds.set("switchSound", new Sound(`${soundPath}switch.wav`));
