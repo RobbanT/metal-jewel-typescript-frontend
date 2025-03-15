@@ -81,7 +81,7 @@ class Jewel extends AnimatedSprite {
                 this._selected = this._selected ? false : true;
                 document.body.style.cursor = "auto";
             }
-            else if (this.collisionRectangle.contains(inputData.position)) {
+            else if (this.collisionRectangle.contains(inputData.position) && document.body.style.cursor != "auto") {
                 this.hovering = true;
                 this.playAnimation();
                 document.body.style.cursor = "pointer";

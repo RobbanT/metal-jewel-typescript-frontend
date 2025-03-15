@@ -9,7 +9,9 @@ class Sound {
     }
 
     play() {
-        this.audio.play();
+        if (this.audio.currentTime === 0 || this.audio.currentTime === this.audio.duration) {
+            this.audio.play();
+        }
     }
 
     stop() {

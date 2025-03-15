@@ -42,6 +42,7 @@ class Canvas {
         this.canvas.addEventListener("touchcancel", (event) => {
             this._inputData.touchStarted = false;
             this._inputData.touchEnded = true;
+            this._inputData.position = new Vector(0, 0);
         });
 
         this.canvas.addEventListener("touchend", (event) => {

@@ -7,7 +7,9 @@ class Sound {
         this.audio.playbackRate = playbackRate;
     }
     play() {
-        this.audio.play();
+        if (this.audio.currentTime === 0 || this.audio.currentTime === this.audio.duration) {
+            this.audio.play();
+        }
     }
     stop() {
         this.audio.pause();
