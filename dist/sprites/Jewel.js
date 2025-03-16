@@ -68,6 +68,7 @@ class Jewel extends AnimatedSprite {
         this._moveEffect.update();
         this.jewelBackground.position = this.position;
         if (!this._scaling && !this._moving) {
+            console.log(inputData.position);
             if (this.collisionRectangle.contains(inputData.position) && inputData.touchEnded) {
                 this._selected = this._selected ? false : true;
                 return;
@@ -77,11 +78,12 @@ class Jewel extends AnimatedSprite {
                 this.playAnimation();
                 return;
             }
+            console.log(document.body.style.cursor === "auto");
             if (this.collisionRectangle.contains(inputData.position) && inputData.mouseClicked) {
                 this._selected = this._selected ? false : true;
                 document.body.style.cursor = "auto";
             }
-            else if (this.collisionRectangle.contains(inputData.position) && (document.body.style.cursor === "auto" || document.body.style.cursor === "pointer")) {
+            else if (this.collisionRectangle.contains(inputData.position) && !("ontouchstart" in window)) {
                 this.hovering = true;
                 this.playAnimation();
                 document.body.style.cursor = "pointer";
