@@ -18,6 +18,7 @@ class JewelManager {
     initJewels() {
         var _a, _b;
         if (!this.jewelManagerReady) {
+            this.jewelManagerReady = true;
             (_a = this.sounds.get("newJewelsSound")) === null || _a === void 0 ? void 0 : _a.play();
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
                 for (let y = 0; y < this.numberOfJewelsVertical; y++) {
@@ -29,10 +30,11 @@ class JewelManager {
                     this.uncheckJewels();
                 }
             }
-            this.jewels.forEach((jewels) => jewels.forEach((jewel) => {
-                jewel.moveEffect.startIncreaseEffect();
-            }));
-            this.jewelManagerReady = true;
+            setTimeout(() => {
+                this.jewels.forEach((jewels) => jewels.forEach((jewel) => {
+                    jewel.moveEffect.startIncreaseEffect();
+                }));
+            }, 400);
         }
         else {
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
