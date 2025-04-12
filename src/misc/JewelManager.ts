@@ -57,7 +57,7 @@ class JewelManager {
                         jewel.moveEffect.startIncreaseEffect();
                     })
                 );
-            }, 400);
+            }, 800);
         } else {
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
                 for (let y = 0; y < this.numberOfJewelsVertical; y++) {

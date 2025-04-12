@@ -34,7 +34,7 @@ class JewelManager {
                 this.jewels.forEach((jewels) => jewels.forEach((jewel) => {
                     jewel.moveEffect.startIncreaseEffect();
                 }));
-            }, 400);
+            }, 800);
         }
         else {
             for (let x = 0; x < this.numberOfJewelsHorizontal; x++) {
